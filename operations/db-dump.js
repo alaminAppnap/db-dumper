@@ -6,14 +6,7 @@ const dbDumpOperation = async (mysqlHost, mysqlPort, mysqlUser, mysqlPassword, d
 
     const backupFolderPath = path.join(__dirname, '..', 'backups', storeFolder);
 
-    fs.readdir(backupFolderPath, (err, files) => {
-        if (err) {
-            console.error('Error reading folder:', err);
-            return 'Error reading folder';
-        }
-
-        const number = files.length + 1;
-        const dumpFilePath = path.join(backupFolderPath, `${databaseName}_${number}.sql`);
+        const dumpFilePath = path.join(backupFolderPath, `${databaseName}.sql`);
 
         const dumpCommand = `mysqldump -u ${mysqlUser} -p${mysqlPassword} -h ${mysqlHost} -P ${mysqlPort} ${databaseName} > ${dumpFilePath}`;
 
@@ -28,7 +21,6 @@ const dbDumpOperation = async (mysqlHost, mysqlPort, mysqlUser, mysqlPassword, d
             }
             console.log(`Database dumped successfully`);
         });
-    });
 };
 
 module.exports = { dbDumpOperation };
