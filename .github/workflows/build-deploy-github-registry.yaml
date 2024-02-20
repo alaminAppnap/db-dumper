@@ -21,6 +21,10 @@ jobs:
           sed -i '/ROBODOC_MYSQL_USER/d' .env
           sed -i '/ROBODOC_MYSQL_PASSWORD/d' .env
           sed -i '/ROBODOC_MYSQL_DB_NAME/d' .env
+          sed -i '/DIGITALOCEAN_ACCESS_KEY_ID/d' .env
+          sed -i '/DIGITALOCEAN_SECRET_ACCESS_KEY/d' .env
+          sed -i '/DIGITALOCEAN_BUCKET/d' .env
+          sed -i '/DIGITALOCEAN_FOLDER/d' .env
 
           echo 'PORT=${{ secrets.APP_PORT }}' >> .env
           echo 'ROBODOC_MYSQL_HOST=${{ secrets.ROBODOC_MYSQL_HOST }}' >> .env
@@ -28,6 +32,10 @@ jobs:
           echo 'ROBODOC_MYSQL_USER=${{ secrets.ROBODOC_MYSQL_USER }}' >> .env
           echo 'ROBODOC_MYSQL_PASSWORD=${{ secrets.ROBODOC_MYSQL_PASSWORD }}' >> .env
           echo 'ROBODOC_MYSQL_DB_NAME=${{ secrets.ROBODOC_MYSQL_DB_NAME }}' >> .env
+          echo 'DIGITALOCEAN_ACCESS_KEY_ID=${{ secrets.DIGITALOCEAN_ACCESS_KEY_ID }}' >> .env
+          echo 'DIGITALOCEAN_SECRET_ACCESS_KEY=${{ secrets.DIGITALOCEAN_SECRET_ACCESS_KEY }}' >> .env
+          echo 'DIGITALOCEAN_BUCKET=${{ secrets.DIGITALOCEAN_BUCKET }}' >> .env
+          echo 'DIGITALOCEAN_FOLDER=${{ secrets.DIGITALOCEAN_FOLDER }}' >> .env
         shell: bash
 
       - name: Set up Docker Build
