@@ -7,9 +7,16 @@ const { dbDumpOperation } = require('./operations/db-dump');
 const port = process.env.PORT || 4000;
 
 
-// Run every morning 07:00 AM
-cron.schedule('0 7 * * *',async () => {
-  // await smsBalanceSlackNotifyOperation();
+// Run every 3 hours
+cron.schedule('0 */3 * * *',async () => {
+  const mysqlHost = process.env.ROBODOC_MYSQL_HOST;
+  const mysqlPort = process.env.ROBODOC_MYSQL_PORT;
+  const mysqlUser = process.env.ROBODOC_MYSQL_USER;
+  const mysqlPassword = process.env.ROBODOC_MYSQL_PASSWORD;
+  const databaseName = process.env.ROBODOC_MYSQL_DB_NAME;
+  const folderName = 'amarpet';
+
+  await dbDumpOperation(mysqlHost,mysqlPort,mysqlUser,mysqlPassword,databaseName,folderName);
   console.log(`Successfully notified!`);
 },{
   timezone: 'Asia/Dhaka'
