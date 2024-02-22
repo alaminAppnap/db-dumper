@@ -1,7 +1,5 @@
 const { exec } = require('child_process');
-const fs = require('fs');
 const path = require('path');
-const AWS = require('aws-sdk');
 const { uploadToDigitalOceanSpaces } = require('./doSpacesUpload');
 
 
@@ -9,10 +7,10 @@ const { uploadToDigitalOceanSpaces } = require('./doSpacesUpload');
 const dbDumpOperation = async (mysqlHost, mysqlPort, mysqlUser, mysqlPassword, databaseName, storeFolder = 'amarpet') => {
 
         const backupFolderPath = path.join(__dirname, '..', 'backups', storeFolder);
-        const dumpFileName = `${databaseName}.sql`;
+        const dumpFileName = `${databaseName}.sql.gz`;
         const dumpFilePath = path.join(backupFolderPath, dumpFileName);
-
-        const dumpCommand = `mysqldump -u ${mysqlUser} -p${mysqlPassword} -h ${mysqlHost} -P ${mysqlPort} ${databaseName} > ${dumpFilePath}`;
+        
+        const dumpCommand = `mysqldump -u ${mysqlUser} -p${mysqlPassword} -h ${mysqlHost} -P ${mysqlPort} ${databaseName} | gzip > ${dumpFilePath}`;
 
         exec(dumpCommand, async(error, stdout, stderr) => {
             if (error) {
