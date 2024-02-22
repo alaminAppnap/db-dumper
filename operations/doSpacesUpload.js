@@ -12,7 +12,7 @@ const uploadToDigitalOceanSpaces = async (dumpFilePath, databaseName) => {
 
     const uploadParams = {
         Bucket: process.env.DIGITALOCEAN_BUCKET,
-        Key: path.join(process.env.DIGITALOCEAN_FOLDER, databaseName),
+        Key: path.join(process.env.DIGITALOCEAN_FOLDER, getDBName(databaseName)),
         Body: fs.createReadStream(dumpFilePath)
     };
 
@@ -21,8 +21,21 @@ const uploadToDigitalOceanSpaces = async (dumpFilePath, databaseName) => {
         console.log('Database dump uploaded to DigitalOcean Spaces successfully');
     } catch (err) {
         console.error('Error uploading database dump to DigitalOcean Spaces:', err);
-        throw err; // Re-throw the error for handling in the calling function
+        throw err;
     }
 };
 
+
+function getDBName(databaseName){
+    const currentDate = new Date();
+    const day = currentDate.getDate();
+    const month = currentDate.getMonth() + 1;
+    const year = currentDate.getFullYear();
+
+    const formattedDay = day < 10 ? `0${day}` : day;
+    const formattedMonth = month < 10 ? `0${month}` : month;
+
+    return `${formattedDay}_${formattedMonth}_${year}_${databaseName}`;
+
+}
 module.exports = { uploadToDigitalOceanSpaces };
