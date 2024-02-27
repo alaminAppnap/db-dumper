@@ -1,6 +1,7 @@
 const fs = require('fs');
 const path = require('path');
 const AWS = require('aws-sdk');
+const { removeFilesFromFolder } = require('./do-space-delete-file');
 
 const uploadToDigitalOceanSpaces = async (dumpFilePath, databaseName) => {
     const spacesEndpoint = new AWS.Endpoint('sgp1.digitaloceanspaces.com');
@@ -19,6 +20,9 @@ const uploadToDigitalOceanSpaces = async (dumpFilePath, databaseName) => {
     try {
         await s3.upload(uploadParams).promise();
         console.log('Database dump uploaded to DigitalOcean Spaces successfully');
+
+        await removeFilesFromFolder(process.env.DIGITALOCEAN_FOLDER);
+
     } catch (err) {
         console.error('Error uploading database dump to DigitalOcean Spaces:', err);
         throw err;
