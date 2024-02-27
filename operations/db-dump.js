@@ -1,6 +1,6 @@
 const { exec } = require('child_process');
 const path = require('path');
-const { uploadToDigitalOceanSpaces } = require('./doSpacesUpload');
+const { uploadToDigitalOceanSpaces } = require('./do-spaces-upload');
 
 
 
