@@ -1,5 +1,4 @@
 const AWS = require('aws-sdk');
-const path = require('path');
 
 const removeFilesFromFolder = async (folderName) => {
     const spacesEndpoint = new AWS.Endpoint('sgp1.digitaloceanspaces.com');
@@ -21,7 +20,6 @@ const removeFilesFromFolder = async (folderName) => {
         if (files.length > process.env.BUCKET_MAX_FILE_STORE) {
             files.sort((a, b) => b.LastModified - a.LastModified);
 
-            // Delete all files except the latest 5
             const filesToDelete = files.slice(process.env.BUCKET_MAX_FILE_STORE);
             const deletePromises = filesToDelete.map(file => {
                 const deleteParams = {
