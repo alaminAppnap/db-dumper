@@ -16,11 +16,12 @@ const removeFilesFromFolder = async (folderName) => {
     try {
         const data = await s3.listObjectsV2(listParams).promise();
         const files = data.Contents;
+        const filesWithExtension = files.filter(file => file.Key.endsWith('.sql.gz'));
 
         if (files.length > process.env.BUCKET_MAX_FILE_STORE) {
-            files.sort((a, b) => b.LastModified - a.LastModified);
+            filesWithExtension.sort((a, b) => b.LastModified - a.LastModified);
 
-            const filesToDelete = files.slice(process.env.BUCKET_MAX_FILE_STORE);
+            const filesToDelete = filesWithExtension.slice(process.env.BUCKET_MAX_FILE_STORE);
             const deletePromises = filesToDelete.map(file => {
                 const deleteParams = {
                     Bucket: process.env.DIGITALOCEAN_BUCKET,
